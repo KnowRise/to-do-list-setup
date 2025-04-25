@@ -3,8 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\Job;
+use App\Models\Task;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\UserTask;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -50,6 +52,23 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Description' . $i,
                 'user_id' => $tasker->id,
             ]);
+        }
+
+        $workers = User::where('role', 'worker')->get();
+        $jobs = Job::all();
+        foreach ($jobs as $job) {
+            for ($i = 1; $i <= 10; $i++) {
+                $task = Task::create([
+                    'title' => 'Title' . $i,
+                    'description' => 'Description' . $i,
+                    'job_id' => $job->id
+                ]);
+
+                UserTask::create([
+                    'user_id' => $workers->random()->id,
+                    'task_id' => $task->id,
+                ]);
+            }
         }
     }
 }

@@ -1,15 +1,14 @@
 <div class="flex justify-between h-fit w-full border-b border-gray-400 p-[16px] shadow-[10px_0px_10px_10px_rgba(0,0,0,0.25)]">
-    <h1 class="text-[32px] font-bold">TaskFlow</h1>
+    <a href="{{ route('dashboard') }}" class="text-[32px] font-bold">TaskFlow</a>
     <div class="flex items-center gap-[16px]">
         <h2>{{ auth()->user()->username }}</h2>
-        <img id="profile" src="{{ asset('storage/' . auth()->user()->profile) }}" alt="Profile" width="40px"
-            height="40px">
+        <img id="profile" src="{{ asset('storage/' . auth()->user()->profile) }}" alt="Profile" class="rounded-full w-[40px] h-[40px] object-cover">
         <ul id="dropdown" class="absolute hidden flex-col top-[80px] right-1 border rounded-[8px] bg-[#eeeeee]">
             <li><button
-                    class="py-[4px] px-[16px] hover:bg-[#3A59D1] w-full cursor-pointer hover:text-[#eeeeee]">Profile</button>
+                    class="btnProfile py-[4px] px-[16px] hover:bg-[#3A59D1] w-full cursor-pointer hover:text-[#eeeeee]">Profile</button>
             </li>
             <li><button
-                    class="py-[4px] px-[16px] hover:bg-[#3A59D1] w-full cursor-pointer hover:text-[#eeeeee]">Password</button>
+                    class="btnPassword py-[4px] px-[16px] hover:bg-[#3A59D1] w-full cursor-pointer hover:text-[#eeeeee]">Password</button>
             </li>
             <li>
                 <form action="{{ route('backend.logout') }}" method="POST">
@@ -21,6 +20,8 @@
         </ul>
     </div>
 </div>
+@include('templates.navbar.modalProfile')
+@include('templates.navbar.modalPassword')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         let profile = document.getElementById('profile');

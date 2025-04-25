@@ -20,10 +20,6 @@ class User extends Authenticatable
         'password',
     ];
 
-    public function userTaskForUser($id) {
-        return $this->hasMany(UserTask::class)->where('user_id', $id);
-    }
-
     public function userTasks() {
         return $this->hasMany(UserTask::class);
     }

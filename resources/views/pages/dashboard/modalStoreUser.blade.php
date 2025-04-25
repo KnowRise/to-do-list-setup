@@ -48,12 +48,16 @@
     let dataAction = formStoreUser.dataset.action;
     let inputPassword = document.querySelectorAll('.inputPassword')
     let showPassword = document.getElementById('showPassword');
+    let inputUsername = document.getElementById('username')
+    let inputRole = document.getElementById('role')
     let userId = null;
 
     btnStoreUser.forEach((btn) => {
         btn.addEventListener('click', function() {
             formStoreUser.action = dataAction;
-            if (btn.dataset.userId) {
+            if (btn.dataset.userId && btn.dataset.role && btn.dataset.username) {
+                inputUsername.value = btn.dataset.username;
+                inputRole.value = btn.dataset.role;
                 userId = btn.dataset.userId;
                 formStoreUser.action = formStoreUser.action.replace('userId', userId);
             } else {

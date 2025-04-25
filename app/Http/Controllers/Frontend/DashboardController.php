@@ -13,16 +13,19 @@ class DashboardController extends Controller
     {
         $user = $request->user();
         if ($user->role == 'admin') {
+            $search = $request->search;
             $query = User::query();
             $query->whereNot('id', $user->id);
-            // $query->get();
+            $query->when($search, function ($q) use ($search) {
+                $q->where('username', 'LIKE', "%{$search}%");
+            });
             $users = $query->paginate(10);
 
             return view('pages.dashboard.main', compact('users'));
         } else if ($user->role == 'worker') {
             $jobs = Job::whereHas('tasks.userTasks', function ($query) use ($user) {
                 $query->where('user_id', $user->id);
-            })->get();
+            })->orWhere('user_id', $user->id)->get();
         } else {
             $jobs = Job::where('user_id', $user->id)->get();
         }

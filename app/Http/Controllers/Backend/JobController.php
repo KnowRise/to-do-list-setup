@@ -29,6 +29,22 @@ class JobController extends Controller
         Job::updateOrCreate(['id' => $id], $data);
 
         $message = $id ? 'Update Job Successfully' : 'Created Job Successfully';
-        return redirect()->back()->with(['message' => $message]);
+
+        if ($id) {
+            return redirect()
+                ->route('jobs.detail', ['id' => $id])
+                ->with(['message' => $message]);
+        } else {
+            return redirect()
+                ->route('dashboard')
+                ->with(['message' => $message]);
+        }
+    }
+
+    public function deleteJob($id) {
+        $job = Job::find($id);
+        $job->delete();
+
+        return redirect()->route('dashboard')->with(['message' => 'Job Deleted Successfully']);
     }
 }

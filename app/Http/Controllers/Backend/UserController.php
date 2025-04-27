@@ -50,4 +50,17 @@ class UserController extends Controller
         $user->delete();
         return redirect()->back()->with(['message' => 'User deleted successfully!']);
     }
+
+    public function getUser(Request $request)
+    {
+        $query = User::query();
+        $role = $request->query('role');
+
+        if ($role) {
+            $query->where('role', $role);
+        }
+
+        $user = $query->get();
+        return response()->json($user);
+    }
 }

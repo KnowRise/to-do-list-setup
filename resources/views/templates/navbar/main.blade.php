@@ -1,42 +1,54 @@
-<div class="flex justify-between h-fit w-full border-b border-gray-400 p-[16px] shadow-[10px_0px_10px_10px_rgba(0,0,0,0.25)]">
-    <a href="{{ route('dashboard') }}" class="text-[32px] font-bold">TaskFlow</a>
-    <div class="flex items-center gap-[16px]">
-        <h2>{{ auth()->user()->username }}</h2>
-        <img id="profile" src="{{ asset('storage/' . auth()->user()->profile) }}" alt="Profile" class="rounded-full w-[40px] h-[40px] object-cover">
-        <ul id="dropdown" class="absolute hidden flex-col top-[80px] right-1 border rounded-[8px] bg-[#eeeeee]">
-            <li><button
-                    class="btnProfile py-[4px] px-[16px] hover:bg-[#3A59D1] w-full cursor-pointer hover:text-[#eeeeee]">Profile</button>
-            </li>
-            <li><button
-                    class="btnPassword py-[4px] px-[16px] hover:bg-[#3A59D1] w-full cursor-pointer hover:text-[#eeeeee]">Password</button>
-            </li>
-            <li>
-                <form action="{{ route('backend.logout') }}" method="POST">
-                    @csrf
-                    <button type="submit" onclick="return confirm('Are you sure wanna Logout?')"
-                    class="py-[4px] px-[16px] hover:bg-[#C5172E] w-full cursor-pointer hover:text-[#eeeeee]">Logout</button>
-                </form>
-            </li>
-        </ul>
+{{-- resources/views/templates/navbar/main.blade.php --}}
+<div class="flex justify-between items-center w-full bg-gray-800 text-gray-200 px-6 py-4 shadow-md relative">
+    <a href="{{ route('dashboard') }}" class="text-2xl font-bold">TaskFlow</a>
+    <div class="flex items-center gap-4 relative">
+      <span class="font-medium">{{ auth()->user()->username }}</span>
+      <img id="profile" src="{{ asset('storage/' . auth()->user()->profile) }}"
+           alt="Profile"
+           class="w-10 h-10 rounded-full ring-2 ring-offset-2 ring-gray-600 cursor-pointer" />
+
+      <ul id="dropdown"
+          class="absolute top-full right-0 mt-2 w-40 bg-gray-800 border border-gray-700 rounded-lg shadow-lg divide-y divide-gray-700 hidden flex-col z-50">
+        <li>
+          <button class="btnProfile w-full text-left px-4 py-2 hover:bg-gray-700">Profile</button>
+        </li>
+        <li>
+          <button class="btnPassword w-full text-left px-4 py-2 hover:bg-gray-700">Password</button>
+        </li>
+        <li>
+          <form action="{{ route('backend.logout') }}" method="POST">
+            @csrf
+            <button type="submit"
+                    onclick="return confirm('Are you sure want to logout?')"
+                    class="w-full text-left px-4 py-2 hover:bg-red-700 hover:text-white">
+              Logout
+            </button>
+          </form>
+        </li>
+      </ul>
     </div>
-</div>
-@include('templates.navbar.modalProfile')
-@include('templates.navbar.modalPassword')
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        let profile = document.getElementById('profile');
-        let dropdown = document.getElementById('dropdown');
+  </div>
 
-        profile.addEventListener('click', function() {
-            dropdown.classList.toggle('hidden');
-            dropdown.classList.toggle('flex');
-        });
+  @include('templates.navbar.modalProfile')
+  @include('templates.navbar.modalPassword')
 
-        window.addEventListener('click', function(event) {
-            if (!profile.contains(event.target) && !dropdown.contains(event.target)) {
-                dropdown.classList.add('hidden');
-                dropdown.classList.remove('flex');
-            }
-        });
-    });
-</script>
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const profile = document.getElementById('profile')
+    const dropdown = document.getElementById('dropdown')
+
+    profile.addEventListener('click', e => {
+      dropdown.classList.toggle('hidden')
+      dropdown.classList.toggle('flex')
+    })
+
+    window.addEventListener('click', e => {
+      if (dropdown.classList.contains('flex')
+          && !profile.contains(e.target)
+          && !dropdown.contains(e.target)) {
+        dropdown.classList.add('hidden')
+        dropdown.classList.remove('flex')
+      }
+    })
+  })
+  </script>

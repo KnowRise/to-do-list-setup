@@ -17,26 +17,6 @@ class TaskController extends Controller
 
         return view('pages.detail.tasks.main', compact('task'));
     }
-    public function modalDetailUserTask(Request $request, $id)
-    {
-        $task = Task::find($id);
-        if (!$task) {
-            return redirect()->back()->withErrors(['error' => 'Task Not Found']);
-        }
-
-        $validator = Validator::make($request->all(), [
-            'user_id' => ['required', 'exists:users,id'],
-        ]);
-
-        if ($validator->fails()) {
-            return redirect()
-            ->back()
-            ->withErrors(['error' => $validator->errors()]);
-        }
-
-        $userTask = UserTask::where('user_id', $request->user_id)->where( 'task_id', $id)->first();
-        return view('pages.detail.tasks.modalDetailUserTask', compact('userTask', 'task'));
-    }
 
     public function modalNewUser(Request $request, $id)
     {

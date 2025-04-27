@@ -1,59 +1,47 @@
+{{-- resources/views/templates/navbar/modalPassword.blade.php --}}
 <div id="modalPassword"
-    class="absolute inset-0 z-1 bg-[rgba(238,238,238,0.5)] backdrop-blur-[10px] hidden justify-center items-center">
-    <div
-        class="flex flex-col justify-center items-center gap-[16px] max-w-[75vh] max-h-[60vh] min-w-[50vh] min-h-fit border p-[32px] rounded-[16px] bg-[#eeeeee]">
-        <div class="flex justify-end w-full">
-            <button class="btnPassword text-[32px] font-bold cursor-pointer hover:text-[#C5172E]">X</button>
-        </div>
-        <h1 class="text-[32px] font-bold">Profile</h1>
-        <form action="{{ route('backend.users.store', ['id' => auth()->user()->id]) }}" method="POST"
-            class="flex flex-col gap-[16px] w-full" enctype="multipart/form-data">
+    class="fixed inset-0 z-50 hidden items-center justify-center bg-[rgba(0,0,0,0.5)] backdrop-blur-sm">
+    <div class="bg-gray-800 text-gray-200 rounded-xl shadow-xl w-full max-w-md p-6 relative">
+        <button class="btnPassword absolute top-4 right-4 text-2xl text-gray-400 hover:text-red-500">&times;</button>
+        <h2 class="text-xl font-bold mb-4">Change Password</h2>
+        <form method="POST" action="{{ route('backend.users.store', auth()->user()->id) }}" class="space-y-4">
             @csrf
-            <div class="flex flex-col gap-[8px]">
-                <label for="password" class="text-[20px]">Password:</label>
-                <input type="password" name="password" id="password" placeholder="Input password"
-                    class="inputPassword text-[16px] border py-[4px] px-[8px] rounded-[8px] w-full" required>
+            <div>
+                <label for="password" class="block mb-1">New Password</label>
+                <input id="password" name="password" type="password" required
+                    class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 inputPassword" />
             </div>
-            <div class="flex flex-col gap-[8px]">
-                <label for="password_confirmation" class="text-[20px]">Password Confirmation:</label>
-                <input type="password" name="password_confirmation" id="password_confirmation"
-                    placeholder="Input Password Confirmation"
-                    class="inputPassword text-[16px] border py-[4px] px-[8px] rounded-[8px] w-full" required>
+            <div>
+                <label for="password_confirmation" class="block mb-1">Confirm Password</label>
+                <input id="password_confirmation" name="password_confirmation" type="password" required
+                    class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 inputPassword" />
             </div>
-            <div class="flex gap-[8px]">
-                <input type="checkbox" id="showPassword">
+            <div class="flex items-center gap-2">
+                <input id="showPassword" type="checkbox" class="h-4 w-4" />
                 <label for="showPassword">Show Password</label>
             </div>
-            <input type="hidden" name="role" value="{{ auth()->user()->role }}">
-            <button
-                class="text-[16px] border py-[4px] px-[8px] rounded-[8px] w-full bg-[#3D90D7] text-[#eeeeee] font-bold hover:bg-[#3A59D1] cursor-pointer">Submit</button>
+            <button type="submit"
+                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition">
+                Submit
+            </button>
         </form>
     </div>
 </div>
+
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        let modalPassword = document.getElementById('modalPassword');
-        let btnPassword = document.querySelectorAll('.btnPassword');
-        let inputPassword = document.querySelectorAll('inputPassword');
-        let showPassword = document.getElementById('showPassword');
-
-        btnPassword.forEach(btn => {
-            btn.addEventListener('click', function() {
-                modalPassword.classList.toggle('hidden')
-                modalPassword.classList.toggle('flex')
+    document.addEventListener('DOMContentLoaded', () => {
+        const modal = document.getElementById('modalPassword')
+        document.querySelectorAll('.btnPassword').forEach(btn =>
+            btn.addEventListener('click', () => {
+                modal.classList.toggle('hidden')
+                modal.classList.toggle('flex')
             })
-        });
+        )
 
-        showPassword.addEventListener('change', function() {
-            if (showPassword.checked) {
-                inputPassword.forEach(input => {
-                    input.setAttribute('type', 'text')
-                })
-            } else {
-                inputPassword.forEach(input => {
-                    input.setAttribute('type', 'password')
-                })
-            }
-        });
-    });
+        const inputs = document.querySelectorAll('.inputPassword')
+        const toggle = document.getElementById('showPassword')
+        toggle.addEventListener('change', () => {
+            inputs.forEach(i => i.type = toggle.checked ? 'text' : 'password')
+        })
+    })
 </script>

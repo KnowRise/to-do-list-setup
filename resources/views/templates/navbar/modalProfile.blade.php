@@ -1,42 +1,39 @@
+{{-- resources/views/templates/navbar/modalProfile.blade.php --}}
 <div id="modalProfile"
-    class="absolute inset-0 z-1 bg-[rgba(238,238,238,0.5)] backdrop-blur-[10px] hidden justify-center items-center">
-    <div
-        class="flex flex-col justify-center items-center gap-[16px] max-w-[75vh] max-h-[60vh] min-w-[50vh] min-h-fit border p-[32px] rounded-[16px] bg-[#eeeeee]">
-        <div class="flex justify-end w-full">
-            <button class="btnProfile text-[32px] font-bold cursor-pointer hover:text-[#C5172E]">X</button>
-        </div>
-        <h1 class="text-[32px] font-bold">Profile</h1>
-        <form action="{{ route('backend.users.store', ['id' => auth()->user()->id]) }}" method="POST" class="flex flex-col gap-[16px] w-full" enctype="multipart/form-data">
+    class="fixed inset-0 z-50 hidden items-center justify-center bg-[rgba(0,0,0,0.5)] backdrop-blur-sm">
+    <div class="bg-gray-800 text-gray-200 rounded-xl shadow-xl w-full max-w-md p-6 relative">
+        <button class="btnProfile absolute top-4 right-4 text-2xl text-gray-400 hover:text-red-500">&times;</button>
+        <h2 class="text-xl font-bold mb-4">Edit Profile</h2>
+        <form method="POST" action="{{ route('backend.users.store', auth()->user()->id) }}"
+            enctype="multipart/form-data" class="space-y-4">
             @csrf
-            <div class="flex flex-col gap-[8px]">
-                <label for="username" class="text-[20px]">Username:</label>
-                <input type="text" name="username" id="username" placeholder="Input Username"
-                    class="text-[16px] border py-[4px] px-[8px] rounded-[8px] w-full" value="{{ auth()->user()->username }}"
-                    required>
+            <div>
+                <label for="username" class="block mb-1">Username</label>
+                <input id="username" name="username" type="text" required
+                    class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    value="{{ auth()->user()->username }}" />
             </div>
-            <div class="flex flex-col gap-[8px]">
-                <input type="file" name="profile" id="file" accept=".jpg, .png, .svg, .jpeg" class="hidden">
-                <label for="file" class="flex items-center">
-                    <img src="{{ asset('icons/upload_file.svg') }}" alt="Profile" width="30" height="30">
-                    <p>Input Profile (Optional)</p>
-                </label>
+            <div>
+                <label class="block mb-1">Profile Picture (optional)</label>
+                <input id="file" name="profile" type="file" accept="image/*"
+                    class="block w-full text-gray-300 bg-gray-700 border border-gray-600 rounded p-2" />
             </div>
-            <input type="hidden" name="role" value="{{ auth()->user()->role }}">
-            <button
-                class="text-[16px] border py-[4px] px-[8px] rounded-[8px] w-full bg-[#3D90D7] text-[#eeeeee] font-bold hover:bg-[#3A59D1] cursor-pointer">Submit</button>
+            <button type="submit"
+                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition">
+                Save
+            </button>
         </form>
     </div>
 </div>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        let modalProfile = document.getElementById('modalProfile');
-        let btnProfile = document.querySelectorAll('.btnProfile');
 
-        btnProfile.forEach(btn => {
-            btn.addEventListener('click', function() {
-                modalProfile.classList.toggle('hidden')
-                modalProfile.classList.toggle('flex')
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const modal = document.getElementById('modalProfile')
+        document.querySelectorAll('.btnProfile').forEach(btn =>
+            btn.addEventListener('click', () => {
+                modal.classList.toggle('hidden')
+                modal.classList.toggle('flex')
             })
-        });
-    });
+        )
+    })
 </script>

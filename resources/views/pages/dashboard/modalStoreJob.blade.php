@@ -1,37 +1,43 @@
-<div id="modalNewJob"
-    class="absolute inset-0 z-1 bg-[rgba(238,238,238,0.5)] backdrop-blur-[10px] hidden justify-center items-center">
+<div id="modalStoreJob" class="fixed inset-0 z-40 bg-black/30 backdrop-blur-md hidden justify-center items-center">
     <div
-        class="flex flex-col justify-center items-center gap-[16px] max-w-[75vh] max-h-[60vh] min-w-[50vh] min-h-fit border p-[32px] rounded-[16px] bg-[#eeeeee]">
-        <div class="flex justify-end w-full">
-            <button class="btnNewJob text-[32px] font-bold cursor-pointer hover:text-[#C5172E]">X</button>
-        </div>
-        <h1 class="text-[32px] font-bold">Store Job</h1>
-        <form id="formNewJob" action="{{ route('backend.jobs.store') }}" method="POST" class="flex flex-col gap-[16px] w-full">
+        class="flex flex-col justify-center items-center gap-6 w-full max-w-md bg-gray-800 text-gray-200 p-8 rounded-2xl shadow-lg relative">
+
+        <button class="btnStoreJob absolute top-4 right-4 text-2xl font-bold text-gray-400 hover:text-red-500">
+            ×
+        </button>
+
+        <h1 class="text-2xl font-bold text-center">Store job</h1>
+
+        <form id="formStoreJob" action="{{ route('backend.jobs.store') }}" method="POST"
+            class="flex flex-col gap-4 w-full">
             @csrf
-            <div class="flex flex-col gap-[8px]">
-                <label for="title" class="text-[20px]">Title:</label>
-                <input type="text" name="title" id="title" placeholder="Input Title"
-                    class="text-[16px] border py-[4px] px-[8px] rounded-[8px] w-full" value="{{ old('title') }}"
-                    required>
+
+            <div class="flex flex-col gap-2">
+                <label for="title" class="text-base font-semibold">Title:</label>
+                <input type="text" name="title" id="titleJob" placeholder="Input Title"
+                    class="text-base border border-gray-700 rounded-lg px-4 py-2 bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400" required>
             </div>
-            <div class="flex flex-col gap-[8px]">
-                <label for="description" class="text-[20px]">Description:</label>
-                <input type="text" name="description" id="description" placeholder="Input Description"
-                    class="inputPassword text-[16px] border py-[4px] px-[8px] rounded-[8px] w-full">
+            <div class="flex flex-col gap-2">
+                <label for="description" class="text-base font-semibold">Description:</label>
+                <textarea type="text" name="description" id="descriptionJob" placeholder="Input Description"
+                    class="text-base border border-gray-700 rounded-lg px-4 py-2 bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400" required></textarea>
             </div>
-            <button
-                class="text-[16px] border py-[4px] px-[8px] rounded-[8px] w-full bg-[#3D90D7] text-[#eeeeee] font-bold hover:bg-[#3A59D1] cursor-pointer">Submit</button>
-         </form>
+
+            <button type="submit"
+                class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all font-semibold">
+                Submit
+            </button>
+        </form>
     </div>
 </div>
 <script>
-    let modalNewJob = document.getElementById('modalNewJob');
-    let btnNewJob = document.querySelectorAll('.btnNewJob');
+    let modalStoreJob = document.getElementById('modalStoreJob');
+    let btnStoreJob = document.querySelectorAll('.btnStoreJob');
 
-    btnNewJob.forEach(btn => {
+    btnStoreJob.forEach(btn => {
         btn.addEventListener('click', function () {
-            modalNewJob.classList.toggle('hidden');
-            modalNewJob.classList.toggle('flex');
+            modalStoreJob.classList.toggle('hidden');
+            modalStoreJob.classList.toggle('flex');
         });
     });
 </script>

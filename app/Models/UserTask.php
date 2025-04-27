@@ -15,6 +15,11 @@ class UserTask extends Model
         'file_path',
     ];
 
+    protected $with = [
+        'user',
+        'task'
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

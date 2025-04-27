@@ -37,7 +37,7 @@ class TaskController extends Controller
             ]);
         }
 
-        $message = $id ? 'Job Updated Successfully' : 'Job Created Successfully';
+        $message = $id ? 'Task Updated Successfully' : 'Task Created Successfully';
         if ($id) {
             return redirect()
                 ->route('tasks.detail', ['id' => $id])
@@ -199,5 +199,15 @@ class TaskController extends Controller
         return redirect()
             ->route('tasks.detail', ['id' => $task->id])
             ->with(['message' => 'Berhasil Assign User']);
+    }
+
+    public function getTask(Request $request) {
+        $query = Task::query();
+        $query->whereHas('job', function ($q) use ($request) {
+            $q->where('user_id', $request->user()->id);
+        });
+        $tasks = $query->with('job')->get();
+
+        return response()->json($tasks);
     }
 }
